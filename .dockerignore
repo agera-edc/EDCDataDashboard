@@ -1,0 +1,7 @@
+.idea
+.vscode
+deployment
+misc
+openapi
+tmp
+node_modules
