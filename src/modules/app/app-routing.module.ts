@@ -9,6 +9,7 @@ import {
 import {
   TransferHistoryViewerComponent
 } from '../edc-demo/components/transfer-history/transfer-history-viewer.component';
+import {ContractViewerComponent} from "../edc-demo/components/contract-viewer/contract-viewer.component";
 
 export const routes: Routes = [
   {
@@ -28,10 +29,15 @@ export const routes: Routes = [
     data: {title: 'Contract Definition Editor', icon: 'rule'}
   },
   {
-    path: 'asset-publisher', component: AssetPublisherComponent, data: { title: 'Data Publisher', icon: 'upload' }
+    path: 'asset-publisher', component: AssetPublisherComponent, data: {title: 'Data Publisher', icon: 'upload'}
   },
   {
     path: '', redirectTo: 'introduction', pathMatch: 'full'
+  },
+  {
+    path: 'contract-viewer',
+    component: ContractViewerComponent,
+    data: {title: 'Contract Viewer', icon: 'attachment'}
   }
 ];
 

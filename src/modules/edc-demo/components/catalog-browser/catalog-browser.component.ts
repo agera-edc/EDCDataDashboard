@@ -105,47 +105,8 @@ export class CatalogBrowserComponent implements OnInit {
       });
   }
 
-  private startPolling(transferProcessId: string, assetId: string) {
-
-    // track this transfer process
-    this.runningTransferProcesses.push({
-      processId: transferProcessId,
-      assetId: assetId,
-      state: TransferProcessStates.REQUESTED
-    });
-
-    if (!this.pollingHandleTransfer) {
-      this.pollingHandleTransfer = setInterval(this.pollRunningTransfers(), 1000);
-    }
-  }
-
-  private pollRunningTransfers() {
-    return () => {
-      const finishedTransferProcesses: string[] = [];
-      for (const runningId of this.runningTransferProcesses) {
-
-        const processId = runningId.processId;
-        this.apiService.getTransferProcessesById(processId).subscribe(refreshedTransferProcess => {
-
-          if (this.finishedTransferProcessStates.includes(refreshedTransferProcess.state.toString())) {
-            finishedTransferProcesses.push(processId);
-            this.notificationService.showMessage(`Asset ${refreshedTransferProcess.dataRequest.assetId} has finished!`, 'Show me!', () => {
-              this.router.navigate(['/transfer-history-viewer'])
-            })
-          }
-
-          this.runningTransferProcesses = this.runningTransferProcesses.filter(tp => !finishedTransferProcesses.includes(tp.processId));
-          if (this.runningTransferProcesses.length === 0) {
-            clearInterval(this.pollingHandleTransfer);
-            this.pollingHandleTransfer = undefined;
-          }
-        });
-      }
-    };
-  }
-
   onNegotiateClicked(contractOffer: ContractOffer) {
-    this.notificationService.showMessage("Negotiation started");
+    this.notificationService.showInfo("Negotiation started");
     const initiateRequest: NegotiationInitiateRequestDto = {
       connectorAddress: contractOffer.asset.originator,
 
@@ -215,5 +176,44 @@ export class CatalogBrowserComponent implements OnInit {
 
   isNegotiated(contractOffer: ContractOffer) {
     return this.finishedNegotiations.get(contractOffer.id) !== undefined;
+  }
+
+  private startPolling(transferProcessId: string, assetId: string) {
+
+    // track this transfer process
+    this.runningTransferProcesses.push({
+      processId: transferProcessId,
+      assetId: assetId,
+      state: TransferProcessStates.REQUESTED
+    });
+
+    if (!this.pollingHandleTransfer) {
+      this.pollingHandleTransfer = setInterval(this.pollRunningTransfers(), 1000);
+    }
+  }
+
+  private pollRunningTransfers() {
+    return () => {
+      const finishedTransferProcesses: string[] = [];
+      for (const runningId of this.runningTransferProcesses) {
+
+        const processId = runningId.processId;
+        this.apiService.getTransferProcessesById(processId).subscribe(refreshedTransferProcess => {
+
+          if (this.finishedTransferProcessStates.includes(refreshedTransferProcess.state.toString())) {
+            finishedTransferProcesses.push(processId);
+            this.notificationService.showInfo(`Asset ${refreshedTransferProcess.dataRequest.assetId} has finished!`, 'Show me!', () => {
+              this.router.navigate(['/transfer-history-viewer'])
+            })
+          }
+
+          this.runningTransferProcesses = this.runningTransferProcesses.filter(tp => !finishedTransferProcesses.includes(tp.processId));
+          if (this.runningTransferProcesses.length === 0) {
+            clearInterval(this.pollingHandleTransfer);
+            this.pollingHandleTransfer = undefined;
+          }
+        });
+      }
+    };
   }
 }
