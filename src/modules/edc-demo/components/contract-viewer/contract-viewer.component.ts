@@ -85,7 +85,7 @@ export class ContractViewerComponent implements OnInit {
   }
 
   private createTransferRequest(contract: ContractAgreementDto, storageTypeId: string): Observable<TransferRequestDto> {
-    return this.getOriginatorForAsset(contract.assetId!).pipe(map(originator => {
+    return this.getOriginatorUrlForAsset(contract.assetId!).pipe(map(originator => {
       return {
         assetId: contract.assetId,
         contractId: contract.id,
@@ -104,7 +104,13 @@ export class ContractViewerComponent implements OnInit {
 
   }
 
-  private getOriginatorForAsset(assetId: string): Observable<string> {
+  /**
+   * This method is used to obtain that URL of the connector that is offering a particular asset from the catalog.
+   * This is a bit of a hack, because currently there is no "clean" way to get the counter-party's URL for a ContractAgreement.
+   *
+   * @param assetId Asset ID of the asset that is associated with the contract.
+   */
+  private getOriginatorUrlForAsset(assetId: string): Observable<string> {
     return this.catalogService.getContractOffers()
       .pipe(
         map(offers => offers.find(o => `urn:artifact:${o.asset.id}` === assetId)),
