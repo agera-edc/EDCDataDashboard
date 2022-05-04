@@ -19,6 +19,11 @@ export const routes: Routes = [
     path: 'catalog-browser', component: CatalogBrowserComponent, data: {title: 'Dataspace Catalog', icon: 'sim_card'}
   },
   {
+    path: 'contract-viewer',
+    component: ContractViewerComponent,
+    data: {title: 'Contract Viewer', icon: 'attachment'}
+  },
+  {
     path: 'transfer-history-viewer',
     component: TransferHistoryViewerComponent,
     data: {title: 'Transfer History', icon: 'assignment'}
@@ -33,11 +38,6 @@ export const routes: Routes = [
   },
   {
     path: '', redirectTo: 'introduction', pathMatch: 'full'
-  },
-  {
-    path: 'contract-viewer',
-    component: ContractViewerComponent,
-    data: {title: 'Contract Viewer', icon: 'attachment'}
   }
 ];
 
