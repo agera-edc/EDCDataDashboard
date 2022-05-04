@@ -85,9 +85,9 @@ export class ContractViewerComponent implements OnInit {
   }
 
   private createTransferRequest(contract: ContractAgreementDto, storageTypeId: string): Observable<TransferRequestDto> {
-    return this.getOriginatorUrlForAsset(contract.assetId!).pipe(map(originator => {
+    return this.getOfferedAssetForId(contract.assetId!).pipe(map(offeredAsset => {
       return {
-        assetId: contract.assetId,
+        assetId: offeredAsset.id,
         contractId: contract.id,
         connectorId: "consumer", //doesn't matter, but cannot be null
         dataDestination: {
@@ -98,7 +98,7 @@ export class ContractViewerComponent implements OnInit {
           }
         },
         transferType: {isFinite: true}, //must be there, otherwise NPE on backend
-        connectorAddress: originator
+        connectorAddress: offeredAsset.originator
       };
     }));
 
@@ -110,12 +110,12 @@ export class ContractViewerComponent implements OnInit {
    *
    * @param assetId Asset ID of the asset that is associated with the contract.
    */
-  private getOriginatorUrlForAsset(assetId: string): Observable<string> {
+  private getOfferedAssetForId(assetId: string): Observable<Asset> {
     return this.catalogService.getContractOffers()
       .pipe(
         map(offers => offers.find(o => `urn:artifact:${o.asset.id}` === assetId)),
         map(o => {
-          if (o) return o.asset.originator;
+          if (o) return o.asset;
           else throw new Error(`No offer found for asset ID ${assetId}`);
         }))
   }
