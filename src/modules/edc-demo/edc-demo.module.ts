@@ -36,6 +36,10 @@ import {
 import {ContractViewerComponent} from './components/contract-viewer/contract-viewer.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
+import {PolicyViewComponent} from "./components/policy-view/policy-view.component";
+import {
+  PolicyRuleViewerComponent
+} from "./components/policy-rule-viewer/policy-rule-viewer.component";
 
 @NgModule({
   imports: [
@@ -71,7 +75,11 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     IntroductionComponent,
     PolicyEditorDialog,
     CatalogBrowserTransferDialog,
-    ContractViewerComponent
+    PolicyViewComponent,
+    PolicyRuleViewerComponent,
+    CatalogBrowserTransferDialog,
+    ContractViewerComponent,
+    IntroductionComponent
   ],
   exports: [
     CatalogBrowserComponent,
@@ -79,7 +87,10 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     ContractDefinitionEditorComponent,
     AssetPublisherComponent,
     IntroductionComponent,
+    PolicyRuleViewerComponent,
+    IntroductionComponent,
     ContractViewerComponent
   ]
 })
-export class EdcDemoModule { }
+export class EdcDemoModule {
+}

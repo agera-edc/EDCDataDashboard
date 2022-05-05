@@ -1,0 +1,11 @@
+<mat-expansion-panel fxFill [disabled]="rules?.length === 0" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{getTitle()}}</mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-list dense>
+    <mat-list-item *ngFor="let rule of rules" style="height: auto !important;">
+      <pre><p>{{rule | json}}</p></pre>
+    </mat-list-item>
+  </mat-list>
+</mat-expansion-panel>

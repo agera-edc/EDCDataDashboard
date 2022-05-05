@@ -1,0 +1,7 @@
+#wrapper {
+  margin: 20px;
+}
+
+:host ::ng-deep div.mat-expansion-panel-body {
+  padding-left: 0 !important;
+}
