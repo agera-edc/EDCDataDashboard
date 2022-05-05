@@ -1,10 +1,23 @@
-<div id="wrapper" *ngIf="policies$ | async as policies">
-  <!--  entry fields for new policy -->
-  <!--  <div id="newEntry">-->
-  <!--    <button mat-raised-button color="accent" (click)="onCreateNewClicked()">-->
-  <!--      <mat-icon>add_circle</mat-icon>-->
-  <!--    </button>-->
-  <!--  </div>-->
+<div id="wrapper" *ngIf="filteredPolicies$ | async as policies">
+<!--    entry fields for new policy-->
+  <div>
+    <mat-form-field appearance="outline" class="search-form-field" color="accent">
+      <mat-label>Search policies</mat-label>
+      <input (input)="onSearch()" [(ngModel)]="searchText" matInput>
+      <mat-icon matPrefix>search</mat-icon>
+      <button (click)="searchText=''; onSearch()" *ngIf="searchText" mat-icon-button matSuffix>
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-paginator [length]="policies?.length" hidePageSize="true" pageSize="10"></mat-paginator>
+
+    <button (click)="onCreate()" color="accent" id="create-button" mat-stroked-button>
+      <mat-icon>add_circle_outline</mat-icon>
+      Create policy
+    </button>
+
+  </div>
 
   <div fxLayout="column" fxLayoutAlign="space-around stretch">
     <mat-card *ngFor="let policy of policies" class="policy-card">

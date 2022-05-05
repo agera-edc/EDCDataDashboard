@@ -17,6 +17,6 @@ export class PolicyRuleViewerComponent implements OnInit {
   }
 
   getTitle(): string {
-    return `Permissions (${this.rules?.length}`;
+    return `Permissions (${this.rules?.length})`;
   }
 }

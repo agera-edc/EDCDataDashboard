@@ -2,10 +2,7 @@
   <mat-expansion-panel-header>
     <mat-panel-title>{{getTitle()}}</mat-panel-title>
   </mat-expansion-panel-header>
-
-  <mat-list dense>
-    <mat-list-item *ngFor="let rule of rules" style="height: auto !important;">
-      <pre><p>{{rule | json}}</p></pre>
-    </mat-list-item>
-  </mat-list>
+  <div style="margin-left: 20px">
+    <pre><p>{{rules | json}}</p></pre>
+  </div>
 </mat-expansion-panel>

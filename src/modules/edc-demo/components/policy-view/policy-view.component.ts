@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Policy, PolicyService} from "../../../edc-dmgmt-client";
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
+import {map, switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-policy-view',
@@ -9,21 +10,37 @@ import {Observable, of} from "rxjs";
 })
 export class PolicyViewComponent implements OnInit {
 
-  policies$: Observable<Policy[]> = of([]);
+  filteredPolicies$: Observable<Policy[]> = of([]);
+  searchText: string = '';
+  private fetch$ = new BehaviorSubject(null);
 
-  constructor(private policyService: PolicyService) { }
-
-
+  constructor(private policyService: PolicyService) {
+  }
 
   ngOnInit(): void {
-    this.policies$ = this.policyService.getAllPolicies();
+    this.filteredPolicies$=  this.fetch$.pipe(
+      switchMap(() => {
+        const contractDefinitions$ = this.policyService.getAllPolicies();
+        return !!this.searchText ?
+          contractDefinitions$.pipe(map(policies => policies.filter(policy => this.isTouched(policy, this.searchText))))
+          :
+          contractDefinitions$;
+      }));
   }
 
   onCreateNewClicked() {
 
   }
 
-  stringify(object: any): string{
-    return JSON.stringify(object, null, 2);
+  onSearch() {
+    this.fetch$.next(null);
+  }
+
+  onCreate() {
+
+  }
+
+  private isTouched(policy: Policy, searchText: string) {
+    return policy.uid.toLowerCase().includes(searchText)
   }
 }
