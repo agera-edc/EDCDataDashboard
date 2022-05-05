@@ -28,7 +28,7 @@ import {AssetPublisherComponent} from './components/asset-publisher/asset-publis
 import {IntroductionComponent} from './components/introduction/introduction.component';
 import {RouterModule} from '@angular/router';
 import {
-  PolicyEditorDialog
+  ContractDefinitionEditorDialog
 } from './components/contractdefinition-editor-dialog/contractdefinition-editor-dialog.component';
 import {
   CatalogBrowserTransferDialog
@@ -40,6 +40,7 @@ import {PolicyViewComponent} from "./components/policy-view/policy-view.componen
 import {
   PolicyRuleViewerComponent
 } from "./components/policy-rule-viewer/policy-rule-viewer.component";
+import {NewPolicyDialogComponent} from "./components/new-policy-dialog/new-policy-dialog.component";
 
 @NgModule({
   imports: [
@@ -73,12 +74,13 @@ import {
     ContractDefinitionEditorComponent,
     AssetPublisherComponent,
     IntroductionComponent,
-    PolicyEditorDialog,
+    ContractDefinitionEditorDialog,
     CatalogBrowserTransferDialog,
     PolicyViewComponent,
     PolicyRuleViewerComponent,
     CatalogBrowserTransferDialog,
     ContractViewerComponent,
+    NewPolicyDialogComponent,
     IntroductionComponent
   ],
   exports: [
@@ -89,6 +91,7 @@ import {
     IntroductionComponent,
     PolicyRuleViewerComponent,
     IntroductionComponent,
+    NewPolicyDialogComponent,
     ContractViewerComponent
   ]
 })

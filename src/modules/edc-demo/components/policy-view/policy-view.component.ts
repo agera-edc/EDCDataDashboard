@@ -1,7 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Policy, PolicyService} from "../../../edc-dmgmt-client";
-import {BehaviorSubject, Observable, of} from "rxjs";
-import {map, switchMap} from "rxjs/operators";
+import {BehaviorSubject, Observable, Observer, of, Subscriber} from "rxjs";
+import {first, map, switchMap} from "rxjs/operators";
+import {MatDialog} from "@angular/material/dialog";
+import {NewPolicyDialogComponent} from "../new-policy-dialog/new-policy-dialog.component";
+import {NotificationService} from "../../services/notification.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-policy-view',
@@ -13,23 +17,29 @@ export class PolicyViewComponent implements OnInit {
   filteredPolicies$: Observable<Policy[]> = of([]);
   searchText: string = '';
   private fetch$ = new BehaviorSubject(null);
+  private errorHandlindSubscriber: Observer<string>;
 
-  constructor(private policyService: PolicyService) {
+  constructor(private policyService: PolicyService,
+              private notificationService: NotificationService,
+              private readonly dialog: MatDialog) {
+
+    this.errorHandlindSubscriber = {
+      next: x => this.fetch$.next(null),
+      error: err => this.showError(err),
+      complete: () => {
+      },
+    }
   }
 
   ngOnInit(): void {
-    this.filteredPolicies$=  this.fetch$.pipe(
+    this.filteredPolicies$ = this.fetch$.pipe(
       switchMap(() => {
         const contractDefinitions$ = this.policyService.getAllPolicies();
         return !!this.searchText ?
-          contractDefinitions$.pipe(map(policies => policies.filter(policy => this.isTouched(policy, this.searchText))))
+          contractDefinitions$.pipe(map(policies => policies.filter(policy => this.isFiltered(policy, this.searchText))))
           :
           contractDefinitions$;
       }));
-  }
-
-  onCreateNewClicked() {
-
   }
 
   onSearch() {
@@ -37,10 +47,29 @@ export class PolicyViewComponent implements OnInit {
   }
 
   onCreate() {
-
+    const dialogRef = this.dialog.open(NewPolicyDialogComponent)
+    dialogRef.afterClosed().pipe(first()).subscribe((result: { policy?: Policy }) => {
+      const newPolicy = result?.policy;
+      if (newPolicy) {
+        this.policyService.createPolicy(newPolicy).subscribe(this.errorHandlindSubscriber);
+      }
+    })
   }
 
-  private isTouched(policy: Policy, searchText: string) {
-    return policy.uid.toLowerCase().includes(searchText)
+  /**
+   * simple full-text search - serialize to JSON and see if "searchText"
+   * is contained
+   */
+  private isFiltered(policy: Policy, searchText: string) {
+    return JSON.stringify(policy).includes(searchText);
+  }
+
+  delete(policy: Policy) {
+    this.policyService.deletePolicy(policy.uid).subscribe(this.errorHandlindSubscriber);
+  }
+
+  private showError(error: Error) {
+    console.error(error)
+    this.notificationService.showError('This policy cannot be deleted');
   }
 }

@@ -51,7 +51,13 @@
         <policy-rules [rules]="policy.prohibitions"></policy-rules>
 
       </mat-card-content>
+      <button (click)="delete(policy)" mat-stroked-button color="warn" matSuffix>
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+      <mat-card-actions>
 
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>
