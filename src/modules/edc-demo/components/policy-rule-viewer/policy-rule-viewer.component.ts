@@ -9,14 +9,11 @@ import {Rule} from "../../../edc-dmgmt-client/model/rule";
 export class PolicyRuleViewerComponent implements OnInit {
 
   @Input() rules: Rule[] | undefined = [];
+  @Input() title: string =''
 
   constructor() {
   }
 
   ngOnInit(): void {
-  }
-
-  getTitle(): string {
-    return `Permissions (${this.rules?.length})`;
   }
 }

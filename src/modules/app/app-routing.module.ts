@@ -27,7 +27,7 @@ export const routes: Routes = [
   {
     path: 'policy-viewer',
     component: PolicyViewComponent,
-    data: {title: 'View Policies', icon: 'policy'}
+    data: {title: 'Policies', icon: 'policy'}
   },
   {
     path: 'transfer-history-viewer',

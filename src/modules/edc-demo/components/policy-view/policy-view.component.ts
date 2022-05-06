@@ -17,16 +17,17 @@ export class PolicyViewComponent implements OnInit {
   filteredPolicies$: Observable<Policy[]> = of([]);
   searchText: string = '';
   private fetch$ = new BehaviorSubject(null);
-  private errorHandlindSubscriber: Observer<string>;
+  private readonly errorOrUpdateSubscriber: Observer<string>;
 
   constructor(private policyService: PolicyService,
               private notificationService: NotificationService,
               private readonly dialog: MatDialog) {
 
-    this.errorHandlindSubscriber = {
+    this.errorOrUpdateSubscriber = {
       next: x => this.fetch$.next(null),
       error: err => this.showError(err),
       complete: () => {
+        this.notificationService.showInfo("Successfully completed")
       },
     }
   }
@@ -51,7 +52,7 @@ export class PolicyViewComponent implements OnInit {
     dialogRef.afterClosed().pipe(first()).subscribe((result: { policy?: Policy }) => {
       const newPolicy = result?.policy;
       if (newPolicy) {
-        this.policyService.createPolicy(newPolicy).subscribe(this.errorHandlindSubscriber);
+        this.policyService.createPolicy(newPolicy).subscribe(this.errorOrUpdateSubscriber);
       }
     })
   }
@@ -65,7 +66,7 @@ export class PolicyViewComponent implements OnInit {
   }
 
   delete(policy: Policy) {
-    this.policyService.deletePolicy(policy.uid).subscribe(this.errorHandlindSubscriber);
+    this.policyService.deletePolicy(policy.uid).subscribe(this.errorOrUpdateSubscriber);
   }
 
   private showError(error: Error) {
