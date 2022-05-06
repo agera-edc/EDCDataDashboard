@@ -1,0 +1,6 @@
+{
+  "apiKey": "x-mvd-apikey-x",
+  "catalogUrl": "http://localhost:8181/api/federatedcatalog",
+  "dataManagementApiUrl": "http://localhost:8182/api/v1/data",
+  "storageAccount": "mvdgpstorage"
+}
