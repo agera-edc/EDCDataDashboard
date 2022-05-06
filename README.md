@@ -16,12 +16,14 @@ EDC Data Dashboard is a dev frontend application for [EDC Data Management API](h
 ## Running the frontend locally
 Should you want to run the frontend on your development machine, you'll have to configure some backend values. Those are stored in `app.config.json`, and 
 by default contain the following:
+
 ```json
 {
-  "apiKey": "<APIKEY>",
-  "catalogUrl": "<URL>:8181/api/federatedcatalog",
-  "dataManagementApiUrl": "<URL>:9191/api/v1/data",
-  "storageAccount": "<INBOX_STORAGE_ACCOUNT>"
+  "dataManagementApiUrl": "{{dataManagementApiUrl}}",
+  "catalogUrl": "{{catalogUrl}}",
+  "storageAccount": "{{account}}",
+  "storageExplorerLinkTemplate": "storageexplorer://v=1&accountid=/subscriptions/{{subscriptionId}}/resourceGroups/{{resourceGroup}}/providers/Microsoft.Storage/storageAccounts/{{account}}&subscriptionid={{subscriptionId}}&resourcetype=Azure.BlobContainer&resourcename={{container}}",
+  "apiKey": "{{apiKey}}"
 }
 ```
 Substitute the values as necessary:
