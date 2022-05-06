@@ -1,6 +1,6 @@
 {
-  "apiKey": "{{apiKey}}",
-  "catalogUrl": "http://{{url}}:8181/api/federatedcatalog",
-  "dataManagementApiUrl": "http://{{url}}:9191/api/v1/data",
-  "storageAccount": "{{account}}"
+  "apiKey": "NwLx%6ICreX(GT]e",
+  "catalogUrl": "http://paul12-company1-edc-mvd.northeurope.azurecontainer.io:8181/api/federatedcatalog",
+  "dataManagementApiUrl": "http://paul12-company1-edc-mvd.northeurope.azurecontainer.io:9191/api/v1/data",
+  "storageAccount": "paul12company1inbox"
 }
