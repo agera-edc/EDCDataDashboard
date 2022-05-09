@@ -97,6 +97,7 @@ export class ContractViewerComponent implements OnInit {
             // container: omitted, so it will be auto-assigned by the EDC runtime
           }
         },
+        managedResources: true,
         transferType: {isFinite: true}, //must be there, otherwise NPE on backend
         connectorAddress: offeredAsset.originator
       };
