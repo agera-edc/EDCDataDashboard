@@ -7,7 +7,7 @@ import {ContractDefinitionDto, ContractDefinitionService} from "../../../edc-dmg
 
 
 @Component({
-  selector: 'contract-definition-viewer',
+  selector: 'edc-demo-contract-definition-viewer',
   templateUrl: './contract-definition-viewer.component.html',
   styleUrls: ['./contract-definition-viewer.component.scss']
 })
