@@ -14,10 +14,14 @@ import {ContractViewerComponent} from "../edc-demo/components/contract-viewer/co
 
 export const routes: Routes = [
   {
-    path: 'introduction', component: IntroductionComponent, data: {title: 'Getting Started', icon: 'info_outline'}
+    path: 'introduction',
+    component: IntroductionComponent,
+    data: {title: 'Getting Started', icon: 'info_outline'}
   },
   {
-    path: 'catalog-browser', component: CatalogBrowserComponent, data: {title: 'Dataspace Catalog', icon: 'sim_card'}
+    path: 'catalog-browser',
+    component: CatalogBrowserComponent,
+    data: {title: 'Dataspace Catalog', icon: 'sim_card'}
   },
   {
     path: 'contract-viewer',
@@ -30,7 +34,7 @@ export const routes: Routes = [
     data: {title: 'Transfer History', icon: 'assignment'}
   },
   {
-    path: 'contractdefinition-viewer',
+    path: 'contract-definition-viewer',
     component: ContractDefinitionViewerComponent,
     data: {title: 'Contract Definitions', icon: 'rule'}
   },
@@ -40,7 +44,9 @@ export const routes: Routes = [
     data: {title: 'Policies', icon: 'policy'}
   },
   {
-    path: 'assets-viewer', component: AssetViewerComponent, data: {title: 'Assets', icon: 'upload'}
+    path: 'assets-viewer',
+    component: AssetViewerComponent,
+    data: {title: 'Assets', icon: 'upload'}
   },
   {
     path: '', redirectTo: 'introduction', pathMatch: 'full'
