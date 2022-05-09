@@ -42,6 +42,11 @@ export class ContractDefinitionEditorDialog implements OnInit {
     });
     this.assetService.getAllAssets().subscribe(assets => {
       this.availableAssets = assets;
+      // preselection
+      if (this.contractDefinition) {
+        const assetIds = this.contractDefinition.criteria.map(c => c.right);
+        this.assets = assets.filter(asset => assetIds.includes(asset.properties["asset:prop:id"]));
+      }
     })
   }
 
