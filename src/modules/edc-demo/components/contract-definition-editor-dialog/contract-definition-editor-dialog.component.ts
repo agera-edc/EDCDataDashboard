@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ContractDefinitionDto, Criterion, Policy, PolicyService} from "../../../edc-dmgmt-client";
+import {AssetDto, AssetService, ContractDefinitionDto, Policy, PolicyService} from "../../../edc-dmgmt-client";
 
 
 @Component({
@@ -11,24 +11,21 @@ import {ContractDefinitionDto, Criterion, Policy, PolicyService} from "../../../
 export class ContractDefinitionEditorDialog implements OnInit {
 
   policies: Policy[] = [];
+  availableAssets: AssetDto[] = [];
   name: string = '';
   editMode = false;
   accessPolicy?: Policy;
   contractPolicy?: Policy;
+  assets: AssetDto[] = [];
   contractDefinition: ContractDefinitionDto = {
     id: '',
-    criteria: [
-      {
-        left: '',
-        right: '',
-        op: ''
-      }
-    ],
+    criteria: [],
     accessPolicyId: undefined!,
     contractPolicyId: undefined!
   };
 
   constructor(private policyService: PolicyService,
+              private assetService: AssetService,
               private dialogRef: MatDialogRef<ContractDefinitionEditorDialog>,
               @Inject(MAT_DIALOG_DATA) contractDefinition?: ContractDefinitionDto) {
     if (contractDefinition) {
@@ -43,23 +40,22 @@ export class ContractDefinitionEditorDialog implements OnInit {
       this.accessPolicy = this.policies.find(policy => policy.uid === this.contractDefinition.accessPolicyId);
       this.contractPolicy = this.policies.find(policy => policy.uid === this.contractDefinition.contractPolicyId);
     });
-  }
-
-  onRemoveCriteria(criterion: Criterion) {
-    this.contractDefinition.criteria = this.contractDefinition?.criteria.filter(c => c !== criterion);
-  }
-
-  onAddCriterion() {
-    this.contractDefinition.criteria = [...this.contractDefinition.criteria, {
-      left: '',
-      op: '',
-      right: ''
-    }];
+    this.assetService.getAllAssets().subscribe(assets => {
+      this.availableAssets = assets;
+    })
   }
 
   onSave() {
     this.contractDefinition.accessPolicyId = this.accessPolicy!.uid;
     this.contractDefinition.contractPolicyId = this.contractPolicy!.uid;
+
+    this.assets.forEach(asset => {
+      this.contractDefinition.criteria = [...this.contractDefinition.criteria, {
+        left: 'asset:prop:id',
+        op: '=',
+        right: asset.properties["asset:prop:id"],
+      }];
+    })
 
     this.dialogRef.close({
       "contractDefinition": this.contractDefinition
