@@ -44,7 +44,7 @@ export const routes: Routes = [
     data: {title: 'Policies', icon: 'policy'}
   },
   {
-    path: 'assets-viewer',
+    path: 'asset-viewer',
     component: AssetViewerComponent,
     data: {title: 'Assets', icon: 'upload'}
   },
