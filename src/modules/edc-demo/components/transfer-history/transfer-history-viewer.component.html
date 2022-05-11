@@ -46,7 +46,7 @@
             <a *ngIf="showStorageExplorerLink(item)" mat-stroked-button mat-button color="accent" [href]="storageExplorerLinkTemplate | replace: item.dataDestination.properties | safe: 'url'" class="action-button">
               <mat-icon>loupe</mat-icon> Open Storage Explorer
             </a>
-            <button *ngIf="showDeprovisionButton(item)" (click)="onDeprovision(item)" color="accent" mat-stroked-button  class="action-button">
+            <button *ngIf="showDeprovisionButton(item)" (click)="onDeprovision(item)" color="warn" mat-stroked-button  class="action-button">
               <mat-icon>cancel_presentation</mat-icon> Deprovision
             </button>
           </td>
