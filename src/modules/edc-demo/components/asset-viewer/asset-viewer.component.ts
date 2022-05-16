@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {AssetEntryDto, AssetService,} from "../../../edc-dmgmt-client";
 import {AssetEditorDialog} from "../asset-editor-dialog/asset-editor-dialog.component";
 import {Asset} from "../../models/asset";
+import {ConfirmationDialogComponent, ConfirmDialogModel} from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'edc-demo-asset-viewer',
@@ -42,8 +43,16 @@ export class AssetViewerComponent implements OnInit {
   }
 
   onDelete(asset: Asset) {
-    this.assetService.removeAsset(asset.id)
-      .subscribe(() => this.fetch$.next(null));
+
+    const dialogData = ConfirmDialogModel.forDelete("asset", `"${asset.name}"`)
+    const ref = this.dialog.open(ConfirmationDialogComponent, {maxWidth: "20%", data: dialogData});
+
+    ref.afterClosed().subscribe(res => {
+      if (res) {
+        this.assetService.removeAsset(asset.id).subscribe(() => this.fetch$.next(null));
+      }
+    });
+
   }
 
   onCreate() {

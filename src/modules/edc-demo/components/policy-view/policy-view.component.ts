@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {NewPolicyDialogComponent} from "../new-policy-dialog/new-policy-dialog.component";
 import {NotificationService} from "../../services/notification.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ConfirmationDialogComponent, ConfirmDialogModel} from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-policy-view',
@@ -66,9 +67,16 @@ export class PolicyViewComponent implements OnInit {
   }
 
   delete(policy: Policy) {
-    if (confirm("Do you really want to delete?")) {
-      this.policyService.deletePolicy(policy.uid).subscribe(this.errorOrUpdateSubscriber);
-    }
+
+    const dialogData = ConfirmDialogModel.forDelete("policy", policy.uid);
+
+    const ref = this.dialog.open(ConfirmationDialogComponent, {maxWidth: '20%', data: dialogData});
+
+    ref.afterClosed().subscribe(res => {
+      if (res) {
+        this.policyService.deletePolicy(policy.uid).subscribe(this.errorOrUpdateSubscriber);
+      }
+    });
   }
 
   private showError(error: Error) {
