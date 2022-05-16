@@ -66,7 +66,9 @@ export class PolicyViewComponent implements OnInit {
   }
 
   delete(policy: Policy) {
-    this.policyService.deletePolicy(policy.uid).subscribe(this.errorOrUpdateSubscriber);
+    if (confirm("Do you really want to delete?")) {
+      this.policyService.deletePolicy(policy.uid).subscribe(this.errorOrUpdateSubscriber);
+    }
   }
 
   private showError(error: Error) {
