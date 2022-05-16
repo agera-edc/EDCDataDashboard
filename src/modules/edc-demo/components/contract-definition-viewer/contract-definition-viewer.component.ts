@@ -7,6 +7,7 @@ import {
 } from '../contract-definition-editor-dialog/contract-definition-editor-dialog.component';
 import {ContractDefinitionDto, ContractDefinitionService} from "../../../edc-dmgmt-client";
 import {ConfirmationDialogComponent, ConfirmDialogModel} from "../confirmation-dialog/confirmation-dialog.component";
+import {NotificationService} from "../../services/notification.service";
 
 
 @Component({
@@ -20,7 +21,9 @@ export class ContractDefinitionViewerComponent implements OnInit {
   searchText = '';
   private fetch$ = new BehaviorSubject(null);
 
-  constructor(private contractDefinitionService: ContractDefinitionService, private readonly dialog: MatDialog) {
+  constructor(private contractDefinitionService: ContractDefinitionService,
+              private notificationService: NotificationService,
+              private readonly dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -57,7 +60,9 @@ export class ContractDefinitionViewerComponent implements OnInit {
     dialogRef.afterClosed().pipe(first()).subscribe((result: { contractDefinition?: ContractDefinitionDto }) => {
       const newContractDefinition = result?.contractDefinition;
       if (newContractDefinition) {
-        this.contractDefinitionService.createContractDefinition(newContractDefinition).subscribe(() => this.fetch$.next(null));
+        this.contractDefinitionService.createContractDefinition(newContractDefinition).subscribe(() => this.fetch$.next(null),
+          error => this.notificationService.showError("Contract definition cannot be created"),
+          () => this.notificationService.showInfo("Contract definition created"));
       }
     });
   }

@@ -7,6 +7,7 @@ import {NewPolicyDialogComponent} from "../new-policy-dialog/new-policy-dialog.c
 import {NotificationService} from "../../services/notification.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ConfirmationDialogComponent, ConfirmDialogModel} from "../confirmation-dialog/confirmation-dialog.component";
+import {AsyncOperationSubscriber} from "../../services/async-operation.subscriber";
 
 @Component({
   selector: 'app-policy-view',
@@ -31,6 +32,7 @@ export class PolicyViewComponent implements OnInit {
         this.notificationService.showInfo("Successfully completed")
       },
     }
+
   }
 
   ngOnInit(): void {
