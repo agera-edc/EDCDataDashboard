@@ -60,12 +60,19 @@ export class ContractDefinitionEditorDialog implements OnInit {
 
     const ids= this.assets.map(asset => asset.id);
 
-
+    if (ids.length == 1) {
+      this.contractDefinition.criteria = [{
+        left: 'asset:prop:id',
+        op: '=',
+        right: ids[0],
+      }];
+    } else {
       this.contractDefinition.criteria = [...this.contractDefinition.criteria, {
         left: 'asset:prop:id',
         op: 'in',
         right: ids,
       }];
+    }
 
     this.dialogRef.close({
       "contractDefinition": this.contractDefinition
