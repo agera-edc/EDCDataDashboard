@@ -67,7 +67,7 @@ export class ConfirmDialogModel {
   }
 
   public static forDelete(type: string, identifier: string): ConfirmDialogModel {
-    const dialogData = new ConfirmDialogModel("Really delete?", `Do you really want to delete ${type} ${identifier}?\nThis action cannot be undone!`)
+    const dialogData = new ConfirmDialogModel("Deletion confirmation", `Please confirm you want to delete ${type} ${identifier}. This action cannot be undone.`)
     dialogData.confirmColor = "warn";
     dialogData.confirmText = "Delete";
     dialogData.cancelText = "Cancel";

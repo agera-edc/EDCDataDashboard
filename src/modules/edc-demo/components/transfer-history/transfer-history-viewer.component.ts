@@ -28,7 +28,7 @@ export class TransferHistoryViewerComponent implements OnInit {
 
   onDeprovision(transferProcess: TransferProcessDto): void {
 
-    const dialogData = new ConfirmDialogModel("Confirm deprovision?", `Deprovisioning resources for transfer [${transferProcess.id}] will take some time and once started, it cannot be stopped.`)
+    const dialogData = new ConfirmDialogModel("Confirm deprovision", `Deprovisioning resources for transfer [${transferProcess.id}] will take some time and once started, it cannot be stopped.`)
     dialogData.confirmColor = "warn";
     dialogData.confirmText = "Confirm";
     dialogData.cancelText = "Abort";
