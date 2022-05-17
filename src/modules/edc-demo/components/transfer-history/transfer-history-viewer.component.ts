@@ -12,13 +12,14 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class TransferHistoryViewerComponent implements OnInit {
 
-  columns: string[] = ['id', 'state', 'connectorId', 'assetId', 'contractId', 'action'];
+  columns: string[] = ['id', 'creationDate', 'state', 'lastUpdated', 'connectorId', 'assetId', 'contractId', 'action'];
   transferProcesses$: Observable<TransferProcessDto[]> = of([]);
   storageExplorerLinkTemplate: string | undefined;
 
   constructor(private transferProcessService: TransferProcessService,
               private dialog : MatDialog,
-              private appConfigService: AppConfigService) { }
+              private appConfigService: AppConfigService) {
+  }
 
   ngOnInit(): void {
     this.loadTransferProcesses();
@@ -50,5 +51,9 @@ export class TransferHistoryViewerComponent implements OnInit {
 
   loadTransferProcesses() {
     this.transferProcesses$ = this.transferProcessService.getAllTransferProcesses();
+  }
+
+  asDate(epochMillis?: number) {
+    return epochMillis ? new Date(epochMillis).toLocaleDateString() : '';
   }
 }
