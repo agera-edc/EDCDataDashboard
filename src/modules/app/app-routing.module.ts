@@ -44,9 +44,9 @@ export const routes: Routes = [
     data: {title: 'Policies', icon: 'policy'}
   },
   {
-    path: 'assets',
+    path: 'my-assets',
     component: AssetViewerComponent,
-    data: {title: 'Assets', icon: 'upload'}
+    data: {title: 'My Assets', icon: 'upload'}
   },
   {
     path: '', redirectTo: 'introduction', pathMatch: 'full'
