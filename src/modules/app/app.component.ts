@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  themeClass(): string {
-    return this.configService.getConfig()?.theme || "";
+  themeClass(): string | undefined {
+    return this.configService.getConfig()?.theme;
   }
 }
