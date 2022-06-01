@@ -20,20 +20,12 @@ jobs:
       # Checkout code
       - uses: actions/checkout@v2
 
-      - name: 'Az CLI login'
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.ARM_CLIENT_ID }}
-          tenant-id: ${{ secrets.ARM_TENANT_ID }}
-          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-
-      - name: 'Login to ACR'
-        run: az acr login -n $ACR_NAME
-        env:
-          ACR_NAME: ${{ secrets.ACR_NAME }}
-
-      # Build Docker runtime image remotely on ACR & push it to the registry.
+      # Build Docker runtime image
       - name: 'Build image'
-        run: az acr build --registry $ACR_NAME --image mvd-edc/data-dashboard:$(git rev-parse HEAD) .
-        env:
-          ACR_NAME: ${{ secrets.ACR_NAME }}
+        run: docker build -t data-dashboard:$(git rev-parse HEAD) .
+
+      # Verify docker image
+      - name: 'Verify image'
+        run: |
+          docker run -p 8080:80 -d --rm data-dashboard:$(git rev-parse HEAD)
+          curl -f localhost:8080
