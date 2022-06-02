@@ -13,5 +13,5 @@ COPY --from=build /app/dist/edc-demo-client /usr/share/nginx/html
 COPY --from=build /app/src/assets /usr/share/nginx/html/assets
 EXPOSE 80
 
-HEALTHCHECK --interval=5m --timeout=3s \
+HEALTHCHECK --interval=2s --timeout=5s --retries=10 \
   CMD curl -f http://localhost/ || exit 1

@@ -23,10 +23,15 @@ jobs:
 
       # Build Docker runtime image
       - name: 'Build image'
-        run: docker build -t data-dashboard:$(git rev-parse HEAD) .
+        run: docker build -t data-dashboard .
+
+      # Run Docker container
+      - name: 'Run container'
+        run: docker run -p 8080:80 -d --rm --name data-dashboard data-dashboard
 
       # Verify docker image
-      - name: 'Verify image'
+      - name: 'Verify container'
         run: |
-          docker run -p 8080:80 -d --rm data-dashboard:$(git rev-parse HEAD)
-          curl -f localhost:8080
+          curl -O https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
+          chmod +x wait-for-it.sh
+          ./wait-for-it.sh -t 20 localhost:8080
