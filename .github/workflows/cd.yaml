@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'main'
-      - 'feature/39-local-docker-build'
 
 # Grant permissions to obtain federated identity credentials
 # see https://docs.github.com/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-azure
